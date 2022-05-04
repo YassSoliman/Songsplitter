@@ -1,0 +1,220 @@
+@import url('https://fonts.googleapis.com/css2?family=Noto+Sans:wght@400;700&display=swap');
+
+* {
+	margin: 0px;
+	padding: 0px;
+	box-sizing: border-box;
+}
+
+html, body {
+	height: 100%;
+	width: 100%;
+}
+
+body {
+	font-family: Noto Sans;
+	font-weight: 400;
+	font-size: 30px;
+	
+	/*overflow-y: hidden;*/
+}
+
+[class^="box-"] {
+	background-color: skyblue;
+
+	display: grid;
+	place-items: center;
+}
+
+.container {
+	display: grid;
+	gap: 1vh;
+	height: 620px;
+	width: 500px;
+	padding: 0px 5vw 0px 5vw;
+	margin: auto;
+
+	grid-template-columns: 1fr;
+	grid-template-rows: auto auto auto auto 1fr;
+	grid-template-areas:
+		"A"
+		"B"
+		"C"
+		"D"
+		"E";
+}
+
+@media only screen and (max-width: 500px) {
+	.container {
+		width: 100vw;
+		/*min-height: -webkit-fill-available;*/
+		height: 100%;
+	}
+}
+
+@media only screen and (max-height: 620px) {
+	.container {
+		/*min-height: -webkit-fill-available;*/
+		height: 100%;
+	}
+}
+
+.box-1 {
+	grid-area: A;
+	font-weight: 700;
+}
+
+.box-2 {
+	grid-area: B;
+	font-size: 8px;
+	text-decoration: underline;
+}
+
+.box-3 {
+	grid-area: C;
+}
+
+.box-4 {
+	grid-area: D;
+}
+
+.box-5 {
+	grid-area: E;
+
+	display: grid;
+	grid-template-columns: auto;
+	grid-template-rows: auto 1fr auto auto;
+	grid-template-areas:
+		"VOCALS MELODY BASS DRUMS"
+		"SLIDERVOCALS SLIDERMELODY SLIDERBASS SLIDERDRUMS"
+		"VISUALVOCALS VISUALMELODY VISUALBASS VISUALDRUMS"
+		"SWITCHVOCALS SWITCHMELODY SWITCHBASS SWITCHDRUMS";
+
+	gap: 1vw;
+
+	font-size: 12px;
+	place-items: center;
+}
+
+/* TITLES */
+.vocals {
+	grid-area: VOCALS;
+}
+
+.melody {
+	grid-area: MELODY;
+}
+
+.bass {
+	grid-area: BASS;
+}
+
+.drums {
+	grid-area: DRUMS;
+}
+
+/* SLIDERS */
+[class^="slider-"] {
+	height: 100% !important;
+}
+
+.slider-vocals {
+	grid-area: SLIDERVOCALS;
+}
+
+.slider-melody {
+	grid-area: SLIDERMELODY;
+}
+
+.slider-bass {
+	grid-area: SLIDERBASS;
+}
+
+.slider-drums {
+	grid-area: SLIDERDRUMS;
+}
+
+/* VISUALS */
+.visuals-vocals {
+	grid-area: VISUALVOCALS;
+}
+
+.visuals-melody {
+	grid-area: VISUALMELODY;
+}
+
+.visuals-bass {
+	grid-area: VISUALBASS;
+}
+
+.visuals-drums {
+	grid-area: VISUALDRUMS;
+}
+
+/* SWITCHES */
+[class^="switch-"] {
+	width: 45px;
+	height: 69px;
+}
+
+.switch-vocals {
+	grid-area: SWITCHVOCALS;
+}
+
+.switch-melody {
+	grid-area: SWITCHMELODY;
+}
+
+.switch-bass {
+	grid-area: SWITCHBASS;
+}
+
+.switch-drums {
+	grid-area: SWITCHDRUMS;
+}
+
+.ui-slider-handle {
+	left: -12px !important;
+}
+
+.btn-push {
+	position: relative;
+	top: 0px;
+	font-family: "Open Sans";
+	text-decoration: none;
+	font-size: 25px;
+	background: #f7f7f7;
+	margin-bottom: 10px;
+	border: 1px solid #c4c4c4;
+	-webkit-border-radius: 5px;
+	-moz-border-radius: 5px;
+	border-radius: 5px;
+	-webkit-box-shadow: 0px 5px 0px #c4c4c4;
+	-moz-box-shadow: 0px 5px 0px #c4c4c4;
+	-ms-box-shadow: 0px 5px 0px #c4c4c4;
+	-o-box-shadow: 0px 5px 0px #c4c4c4;
+	box-shadow: 0px 5px 0px #c4c4c4;
+	color: #222;
+	text-shadow: 1px 1px 1px #fff;
+	-webkit-transition: All 250ms ease;
+	-moz-transition: All 250ms ease;
+	-o-transition: All 250ms ease;
+	-ms-transition: All 250ms ease;
+	transition: All 250ms ease;
+}
+
+/*==========  Active State  ==========*/
+.btn-push:active {
+	position: relative;
+	top: 5px;
+	-webkit-box-shadow: none !important;
+	-moz-box-shadow: none !important;
+	-ms-box-shadow: none !important;
+	-o-box-shadow: none !important;
+	box-shadow: none !important;
+	-webkit-transition: All 250ms ease;
+	-moz-transition: All 250ms ease;
+	-o-transition: All 250ms ease;
+	-ms-transition: All 250ms ease;
+	transition: All 250ms ease;
+}
