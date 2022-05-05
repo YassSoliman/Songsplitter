@@ -20,24 +20,24 @@ body {
 }
 
 [class^="box-"] {
-	background-color: skyblue;
-
 	display: grid;
 	place-items: center;
+	width: 339px;
+	
 }
 
 .container {
 	display: grid;
-	gap: 1vh;
-	height: 620px;
-	width: 500px;
-	padding: 0px 5vw 0px 5vw;
+	height: 665px;
+	place-items: center ;
+	
 	margin: auto;
 
 	grid-template-columns: 1fr;
-	grid-template-rows: auto auto auto auto 1fr;
+	grid-template-rows: auto auto auto auto auto 1fr;
 	grid-template-areas:
 		"A"
+		"HR"
 		"B"
 		"C"
 		"D"
@@ -45,16 +45,22 @@ body {
 }
 
 @media only screen and (max-width: 500px) {
-	.container {
+	[class^="box-"] {
 		width: 100vw;
+		/*min-height: -webkit-fill-available;*/
+		
+	}
+
+
+}
+
+@media only screen and (max-height: 665px) {
+	[class^="box-"] {
 		/*min-height: -webkit-fill-available;*/
 		height: 100%;
 	}
-}
 
-@media only screen and (max-height: 620px) {
 	.container {
-		/*min-height: -webkit-fill-available;*/
 		height: 100%;
 	}
 }
@@ -62,25 +68,35 @@ body {
 .box-1 {
 	grid-area: A;
 	font-weight: 700;
+	padding: 4px 0px 4px 0px;
+}
+
+.horizontal {
+	width: 100%;
+	grid-area: HR;
+	border: 1px solid black;
 }
 
 .box-2 {
 	grid-area: B;
 	font-size: 8px;
 	text-decoration: underline;
+	padding: 8px 0px 8px 0px;
 }
 
 .box-3 {
 	grid-area: C;
+	padding: 4px 0px 13px 0px;
 }
 
 .box-4 {
 	grid-area: D;
+	padding: 0px 0px 19px 0px;
 }
 
 .box-5 {
 	grid-area: E;
-
+	height: 100%;
 	display: grid;
 	grid-template-columns: auto;
 	grid-template-rows: auto 1fr auto auto;
@@ -90,7 +106,7 @@ body {
 		"VISUALVOCALS VISUALMELODY VISUALBASS VISUALDRUMS"
 		"SWITCHVOCALS SWITCHMELODY SWITCHBASS SWITCHDRUMS";
 
-	gap: 1vw;
+	row-gap: 8px;
 
 	font-size: 12px;
 	place-items: center;
