@@ -9,28 +9,23 @@
 html, body {
 	height: 100%;
 	width: 100%;
-}
-
-body {
-	font-family: Noto Sans;
+	font-family: 'Noto Sans';
 	font-weight: 400;
 	font-size: 30px;
-	
-	/*overflow-y: hidden;*/
 }
 
 [class^="box-"] {
 	display: grid;
 	place-items: center;
 	width: 339px;
-	
+
 }
 
 .container {
 	display: grid;
 	height: 665px;
-	place-items: center ;
-	
+	place-items: center;
+
 	margin: auto;
 
 	grid-template-columns: 1fr;
@@ -48,7 +43,7 @@ body {
 	[class^="box-"] {
 		width: 100vw;
 		/*min-height: -webkit-fill-available;*/
-		
+
 	}
 
 
@@ -68,30 +63,34 @@ body {
 .box-1 {
 	grid-area: A;
 	font-weight: 700;
-	padding: 4px 0px 4px 0px;
+	margin: 4px 0px 4px 0px;
 }
 
 .horizontal {
 	width: 100%;
 	grid-area: HR;
-	border: 1px solid black;
+	border-color: transparent;
+	background-color: black;
+	height: 1px;
 }
 
 .box-2 {
 	grid-area: B;
 	font-size: 8px;
 	text-decoration: underline;
-	padding: 8px 0px 8px 0px;
+	margin: 8px 0px 8px 0px;
 }
 
 .box-3 {
 	grid-area: C;
-	padding: 4px 0px 13px 0px;
+	margin: 4px 0px 13px 0px;
+	height: 34px;
 }
 
 .box-4 {
 	grid-area: D;
-	padding: 0px 0px 19px 0px;
+	margin: 0px 0px 19px 0px;
+	height: 58px;
 }
 
 .box-5 {
@@ -110,6 +109,27 @@ body {
 
 	font-size: 12px;
 	place-items: center;
+
+	padding: 0px 10px 0px 10px;
+}
+
+.custom-select {
+	-webkit-appearance: none;
+	-moz-appearance: none;
+	background: #EAEAEA;
+	background-image: url("../img/custom-select-arrow.png");
+	background-repeat: no-repeat;
+	background-position-x: 98%;
+	background-position-y: 50%;
+	background-size: 17px;
+	border: 0px;
+	border-radius: 5px;
+	padding-left: 14px;
+	padding-right: 2rem;
+	height: 100%;
+	font-size: 12px;
+	color: #555555;
+	font-family: 'Noto Sans';
 }
 
 /* TITLES */
@@ -196,22 +216,8 @@ body {
 .btn-push {
 	position: relative;
 	top: 0px;
-	font-family: "Open Sans";
-	text-decoration: none;
-	font-size: 25px;
-	background: #f7f7f7;
-	margin-bottom: 10px;
-	border: 1px solid #c4c4c4;
-	-webkit-border-radius: 5px;
-	-moz-border-radius: 5px;
-	border-radius: 5px;
-	-webkit-box-shadow: 0px 5px 0px #c4c4c4;
-	-moz-box-shadow: 0px 5px 0px #c4c4c4;
-	-ms-box-shadow: 0px 5px 0px #c4c4c4;
-	-o-box-shadow: 0px 5px 0px #c4c4c4;
-	box-shadow: 0px 5px 0px #c4c4c4;
-	color: #222;
-	text-shadow: 1px 1px 1px #fff;
+	background: linear-gradient(180deg, #C4C4C4 0%, #FFFFFF 100%);
+	filter: drop-shadow(0px 4px 4px rgba(0, 0, 0, 0.25));
 	-webkit-transition: All 250ms ease;
 	-moz-transition: All 250ms ease;
 	-o-transition: All 250ms ease;
@@ -223,11 +229,7 @@ body {
 .btn-push:active {
 	position: relative;
 	top: 5px;
-	-webkit-box-shadow: none !important;
-	-moz-box-shadow: none !important;
-	-ms-box-shadow: none !important;
-	-o-box-shadow: none !important;
-	box-shadow: none !important;
+	filter: drop-shadow(0px 0px 1px rgba(0, 0, 0, 0.25));
 	-webkit-transition: All 250ms ease;
 	-moz-transition: All 250ms ease;
 	-o-transition: All 250ms ease;
