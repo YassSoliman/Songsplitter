@@ -14324,6 +14324,7 @@ var widgetsSlider = $.widget( "ui.slider", $.ui.mouse, {
 			this.handles.each( function( i ) {
 				valPercent = ( that.values( i ) - that._valueMin() ) / ( that._valueMax() -
 					that._valueMin() ) * 100;
+
 				_set[ that.orientation === "horizontal" ? "left" : "bottom" ] = valPercent + "%";
 				$( this ).stop( 1, 1 )[ animate ? "animate" : "css" ]( _set, o.animate );
 				if ( that.options.range === true ) {
@@ -14365,7 +14366,10 @@ var widgetsSlider = $.widget( "ui.slider", $.ui.mouse, {
 			valueMax = this._valueMax();
 			valPercent = ( valueMax !== valueMin ) ?
 					( value - valueMin ) / ( valueMax - valueMin ) * 100 :
-					0;
+					0;		
+			/*if (valPercent >= 90) {
+				valPercent = 90;
+			}*/	
 			_set[ this.orientation === "horizontal" ? "left" : "bottom" ] = valPercent + "%";
 			this.handle.stop( 1, 1 )[ animate ? "animate" : "css" ]( _set, o.animate );
 

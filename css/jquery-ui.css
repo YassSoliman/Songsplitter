@@ -776,7 +776,7 @@ button.ui-button::-moz-focus-inner {
 .ui-slider-vertical .ui-slider-handle {
 	left: -.3em;
 	margin-left: 0;
-	margin-bottom: -.6em;
+	margin-bottom: -20px;
 }
 .ui-slider-vertical .ui-slider-range {
 	left: 0;
