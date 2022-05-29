@@ -13,7 +13,7 @@ $(function () {
 			transition: 'All 250ms ease'
 		});
 		$(".visuals-vocals").attr('style', 'background: radial-gradient(50% 50% at 50% 50%, #C0C0C0 0%, rgba(208, 208, 208, 0) 100%)');
-
+		$(this).attr('data-status', 'muted');
 		audioVocals.volume = 0;
 	});
 
@@ -29,6 +29,7 @@ $(function () {
 			transition: 'All 250ms ease'
 		});
 		$(".visuals-vocals").attr('style', 'background: radial-gradient(50% 50% at 50% 50%, #67CE67 0%, rgba(103, 206, 103, 0) 100%)');
+		$(this).attr('data-status', 'unmuted');
 		audioVocals.volume = $("#slider-vocals").slider("option", "value") / 100;
 	});
 
@@ -44,6 +45,7 @@ $(function () {
 			transition: 'All 250ms ease'
 		});
 		$(".visuals-melody").attr('style', 'background: radial-gradient(50% 50% at 50% 50%, #C0C0C0 0%, rgba(208, 208, 208, 0) 100%)');
+		$(this).attr('data-status', 'muted');
 		audioMelody.volume = 0;
 	});
 
@@ -59,6 +61,7 @@ $(function () {
 			transition: 'All 250ms ease'
 		});
 		$(".visuals-melody").attr('style', 'background: radial-gradient(50% 50% at 50% 50%, #67CE67 0%, rgba(103, 206, 103, 0) 100%)');
+		$(this).attr('data-status', 'unmuted');
 		audioMelody.volume = $("#slider-melody").slider("option", "value") / 100;
 	});
 
@@ -74,6 +77,7 @@ $(function () {
 			transition: 'All 250ms ease'
 		});
 		$(".visuals-bass").attr('style', 'background: radial-gradient(50% 50% at 50% 50%, #C0C0C0 0%, rgba(208, 208, 208, 0) 100%)');
+		$(this).attr('data-status', 'muted');
 		audioBass.volume = 0;
 	});
 
@@ -89,6 +93,7 @@ $(function () {
 			transition: 'All 250ms ease'
 		});
 		$(".visuals-bass").attr('style', 'background: radial-gradient(50% 50% at 50% 50%, #67CE67 0%, rgba(103, 206, 103, 0) 100%)');
+		$(this).attr('data-status', 'unmuted');
 		audioBass.volume = $("#slider-bass").slider("option", "value") / 100;
 	});
 
@@ -104,6 +109,7 @@ $(function () {
 			transition: 'All 250ms ease'
 		});
 		$(".visuals-drums").attr('style', 'background: radial-gradient(50% 50% at 50% 50%, #C0C0C0 0%, rgba(208, 208, 208, 0) 100%)');
+		$(this).attr('data-status', 'muted');
 		audioDrums.volume = 0;
 	});
 
@@ -119,6 +125,7 @@ $(function () {
 			transition: 'All 250ms ease'
 		});
 		$(".visuals-drums").attr('style', 'background: radial-gradient(50% 50% at 50% 50%, #67CE67 0%, rgba(103, 206, 103, 0) 100%)');
+		$(this).attr('data-status', 'unmuted');
 		audioDrums.volume = $("#slider-drums").slider("option", "value") / 100;
 	});
 
@@ -129,7 +136,9 @@ $(function () {
 		max: 100,
 		value: 85,
 		change: function (event, ui) {
-			audioVocals.volume = ui.value / 100;
+			if ($(".switch-vocals").attr('data-status') == 'unmuted') {
+				audioVocals.volume = ui.value / 100;
+			}
 		}
 	});
 
@@ -140,7 +149,9 @@ $(function () {
 		max: 100,
 		value: 85,
 		change: function (event, ui) {
-			audioMelody.volume = ui.value / 100;
+			if ($(".switch-melody").attr('data-status') == 'unmuted') {
+				audioMelody.volume = ui.value / 100;
+			}
 		}
 	});
 
@@ -151,7 +162,9 @@ $(function () {
 		max: 100,
 		value: 85,
 		change: function (event, ui) {
-			audioBass.volume = ui.value / 100;
+			if ($(".switch-bass").attr('data-status') == 'unmuted') {
+				audioBass.volume = ui.value / 100;
+			}
 		}
 	});
 
@@ -162,20 +175,14 @@ $(function () {
 		max: 100,
 		value: 85,
 		change: function (event, ui) {
-			audioDrums.volume = ui.value / 100;
+			if ($(".switch-drums").attr('data-status') == 'unmuted') {
+				audioDrums.volume = ui.value / 100;
+			}
 		}
 	});
 
-
-
-
 	const playIconContainer = document.getElementById('play-icon');
-	const audioPlayerContainer = document.getElementById('audio-player-container');
 	const seekSlider = document.getElementById('seek-slider');
-	var audioMelodyVolume = $("#slider-melody").slider("option", "value");
-	var audioVocalsVolume = $("#slider-vocals").slider("option", "value");
-	var audioBassVolume = $("#slider-bass").slider("option", "value");
-	var audioDrumsVolume = $("#slider-drums").slider("option", "value");
 
 	let playState = 'play';
 
@@ -196,10 +203,10 @@ $(function () {
 			audioBass.play();
 			audioDrums.play();
 
-			audioMelody.volume = audioMelodyVolume / 100;
-			audioBass.volume = audioBassVolume / 100;
-			audioVocals.volume = audioVocalsVolume / 100;
-			audioDrums.volume = audioDrumsVolume / 100;
+			audioMelody.volume = $("#slider-melody").slider("option", "value") / 100;
+			audioBass.volume = $("#slider-bass").slider("option", "value") / 100;
+			audioVocals.volume = $("#slider-vocals").slider("option", "value") / 100;
+			audioDrums.volume = $("#slider-drums").slider("option", "value") / 100;
 
 			playAnimation.playSegments([0, 13], true);
 			requestAnimationFrame(whilePlaying);
@@ -214,19 +221,6 @@ $(function () {
 			playState = 'play';
 		}
 	});
-
-
-	/*const showRangeProgress = (rangeInput) => {
-		if (rangeInput === seekSlider) audioPlayerContainer.style.setProperty('--seek-before-width', rangeInput.value / rangeInput.max * 100 + '%');
-		else audioPlayerContainer.style.setProperty('--volume-before-width', rangeInput.value / rangeInput.max * 100 + '%');
-	}
-
-	seekSlider.addEventListener('input', (e) => {
-		showRangeProgress(e.target);
-	});*/
-
-
-
 
 
 	/** Implementation of the functionality of the audio player */
