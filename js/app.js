@@ -207,8 +207,9 @@ $(function () {
 			audioBass.volume = $("#slider-bass").slider("option", "value") / 100;
 			audioVocals.volume = $("#slider-vocals").slider("option", "value") / 100;
 			audioDrums.volume = $("#slider-drums").slider("option", "value") / 100;
-
-			playAnimation.playSegments([0, 13], true);
+			playAnimation.goToAndStop(13, true);
+			// If you want animation, uncomment and comment line under 
+			//playAnimation.playSegments([0, 13], true);
 			requestAnimationFrame(whilePlaying);
 			playState = 'pause';
 		} else {
@@ -216,7 +217,9 @@ $(function () {
 			audioVocals.pause();
 			audioBass.pause();
 			audioDrums.pause();
-			playAnimation.playSegments([13, 0], true);
+			// If you want animation, uncomment and comment line under
+			//playAnimation.playSegments([13, 0], true);
+			playAnimation.goToAndStop(0, true);
 			cancelAnimationFrame(raf);
 			playState = 'play';
 		}
