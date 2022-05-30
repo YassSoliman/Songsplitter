@@ -1,6 +1,7 @@
 /** Implementation of the presentation of the audio player */
 import lottieWeb from 'https://cdn.skypack.dev/lottie-web';
 $(function () {
+	const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
 	$(".switch-vocals").on("touchstart mousedown", function (e) {
 		e.preventDefault();
 		$(this).css({
@@ -28,7 +29,6 @@ $(function () {
 			OTransition: 'All 250ms ease',
 			transition: 'All 250ms ease'
 		});
-		$(".visuals-vocals").attr('style', 'background: radial-gradient(50% 50% at 50% 50%, #67CE67 0%, rgba(103, 206, 103, 0) 100%)');
 		$(this).attr('data-status', 'unmuted');
 		audioVocals.volume = $("#slider-vocals").slider("option", "value") / 100;
 	});
@@ -60,7 +60,6 @@ $(function () {
 			OTransition: 'All 250ms ease',
 			transition: 'All 250ms ease'
 		});
-		$(".visuals-melody").attr('style', 'background: radial-gradient(50% 50% at 50% 50%, #67CE67 0%, rgba(103, 206, 103, 0) 100%)');
 		$(this).attr('data-status', 'unmuted');
 		audioMelody.volume = $("#slider-melody").slider("option", "value") / 100;
 	});
@@ -92,7 +91,6 @@ $(function () {
 			OTransition: 'All 250ms ease',
 			transition: 'All 250ms ease'
 		});
-		$(".visuals-bass").attr('style', 'background: radial-gradient(50% 50% at 50% 50%, #67CE67 0%, rgba(103, 206, 103, 0) 100%)');
 		$(this).attr('data-status', 'unmuted');
 		audioBass.volume = $("#slider-bass").slider("option", "value") / 100;
 	});
@@ -124,7 +122,6 @@ $(function () {
 			OTransition: 'All 250ms ease',
 			transition: 'All 250ms ease'
 		});
-		$(".visuals-drums").attr('style', 'background: radial-gradient(50% 50% at 50% 50%, #67CE67 0%, rgba(103, 206, 103, 0) 100%)');
 		$(this).attr('data-status', 'unmuted');
 		audioDrums.volume = $("#slider-drums").slider("option", "value") / 100;
 	});
@@ -181,6 +178,128 @@ $(function () {
 		}
 	});
 
+	var audioElementMelody, audioElementVocals, audioElementBass, audioElementDrums;
+	var analyserMelody, analyserVocals, analyserBass, analyserDrums;
+	let firstPlay = {
+		'bass': true,
+		'vocals': true,
+		'drums': true,
+		'melody': true
+	};
+	const FREQUENCY_BIN_COUNT = 128;
+	const dataArray = new Uint8Array(FREQUENCY_BIN_COUNT);
+
+	const setupAudioCtx = (audioStr) => {
+		// Initialize analyser		
+
+		switch (audioStr) {
+			case 'melody':
+				analyserMelody = audioCtx.createAnalyser();
+				analyserMelody.fftSize = 2 * FREQUENCY_BIN_COUNT;
+				// Analyser's frequencyBinCount is always half of the fftSize (https://developer.mozilla.org/en-US/docs/Web/API/AnalyserNode/frequencyBinCount)
+				const sourceMelody = audioCtx.createMediaElementSource(audioElementMelody);
+				// Connect source -> analyser -> destination
+				sourceMelody.connect(analyserMelody);
+				analyserMelody.connect(audioCtx.destination);
+				break;
+			case 'bass':
+				analyserBass = audioCtx.createAnalyser();
+				analyserBass.fftSize = 2 * FREQUENCY_BIN_COUNT;
+				// Analyser's frequencyBinCount is always half of the fftSize (https://developer.mozilla.org/en-US/docs/Web/API/AnalyserNode/frequencyBinCount)
+				const sourceBass = audioCtx.createMediaElementSource(audioElementBass);
+				// Connect source -> analyser -> destination
+				sourceBass.connect(analyserBass);
+				analyserBass.connect(audioCtx.destination);
+				break;
+			case 'drums':
+				analyserDrums = audioCtx.createAnalyser();
+				analyserDrums.fftSize = 2 * FREQUENCY_BIN_COUNT;
+				// Analyser's frequencyBinCount is always half of the fftSize (https://developer.mozilla.org/en-US/docs/Web/API/AnalyserNode/frequencyBinCount)
+				const sourceDrums = audioCtx.createMediaElementSource(audioElementDrums);
+				// Connect source -> analyser -> destination
+				sourceDrums.connect(analyserDrums);
+				analyserDrums.connect(audioCtx.destination);
+				break;
+			case 'vocals':
+				analyserVocals = audioCtx.createAnalyser();
+				analyserVocals.fftSize = 2 * FREQUENCY_BIN_COUNT;
+				// Analyser's frequencyBinCount is always half of the fftSize (https://developer.mozilla.org/en-US/docs/Web/API/AnalyserNode/frequencyBinCount)
+				const sourceVocals = audioCtx.createMediaElementSource(audioElementVocals);
+				// Connect source -> analyser -> destination
+				sourceVocals.connect(analyserVocals);
+				analyserVocals.connect(audioCtx.destination);
+				break;
+		}
+
+	}
+
+	const scale = (number, [inMin, inMax], [outMin, outMax]) => {
+		// if you need an integer value use Math.floor or Math.ceil here
+		return Math.floor((number - inMin) / (inMax - inMin) * (outMax - outMin) + outMin);
+	}
+
+	const getIntensity = (audioStr) => {
+		switch (audioStr) {
+			case 'melody':
+				analyserMelody.getByteFrequencyData(dataArray);
+				break;
+			case 'bass':
+				analyserBass.getByteFrequencyData(dataArray);
+				break;
+			case 'vocals':
+				analyserVocals.getByteFrequencyData(dataArray);
+				break;
+			case 'drums':
+				analyserDrums.getByteFrequencyData(dataArray);
+				break;
+		}
+
+		let results = dataArray.filter(element => {
+			return element > 0;
+		});
+
+		let averageIntensity = 0;
+		for (let i = 0; i < results.length; i++) {
+			averageIntensity += results[i];
+
+		}
+		if (results.length != 0) {
+			averageIntensity /= results.length;
+		}
+		let visualIntensity = scale(averageIntensity, [0, 255], [0, 100]);
+
+		if ($("#audio-" + audioStr).prop('volume') != 0) {
+			$(".visuals-" + audioStr).css({
+				background: 'radial-gradient(50% 50% at 50% 50%, hsl(120, ' + visualIntensity.toString() * 1.2 + '%, 61%) 0%, rgba(103, 206, 103, 0) 100%)'
+			});
+		}
+	};
+
+	const setupOnPlay = (audioStr) => {
+		if (firstPlay[audioStr]) {
+			setupAudioCtx(audioStr);
+			setInterval(getIntensity, 50, audioStr);
+			firstPlay[audioStr] = false;
+		}
+	};
+
+	const getAudioElements = () => {
+
+		audioElementMelody = document.getElementById('audio-melody');
+		audioElementMelody.onplay = setupOnPlay('melody');
+
+		audioElementVocals = document.getElementById('audio-vocals');
+		audioElementVocals.onplay = setupOnPlay('vocals');
+
+		audioElementDrums = document.getElementById('audio-drums');
+		audioElementDrums.onplay = setupOnPlay('drums');
+
+		audioElementBass = document.getElementById('audio-bass');
+		audioElementBass.onplay = setupOnPlay('bass');
+	};
+
+	getAudioElements();
+
 	const playIconContainer = document.getElementById('play-icon');
 	const seekSlider = document.getElementById('seek-slider');
 
@@ -197,6 +316,7 @@ $(function () {
 	playAnimation.goToAndStop(0, true);
 
 	playIconContainer.addEventListener('click', () => {
+		audioCtx.resume();
 		if (playState === 'play') {
 			audioMelody.play();
 			audioVocals.play();
@@ -286,5 +406,7 @@ $(function () {
 			requestAnimationFrame(whilePlaying);
 		}
 	});
+
+
 });
 

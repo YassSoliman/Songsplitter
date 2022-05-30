@@ -148,7 +148,7 @@ button {
 
 .time {
 	text-align: center;
-	font-size: 8px;	
+	font-size: 8px;
 }
 
 #forward-slash {
@@ -312,7 +312,7 @@ input[type="range"]::-ms-thumb {
 	grid-area: VISUALVOCALS;
 	margin-top: 10px;
 	margin-bottom: 10px;
-	background: radial-gradient(50% 50% at 50% 50%, #67CE67 0%, rgba(103, 206, 103, 0) 100%);
+	background: radial-gradient(50% 50% at 50% 50%, rgb(156, 156, 156) 0%, rgba(103, 206, 103, 0) 100%);
 	width: 35px;
 	height: 35px;
 }
@@ -321,7 +321,7 @@ input[type="range"]::-ms-thumb {
 	grid-area: VISUALMELODY;
 	margin-top: 10px;
 	margin-bottom: 10px;
-	background: radial-gradient(50% 50% at 50% 50%, #67CE67 0%, rgba(103, 206, 103, 0) 100%);
+	background: radial-gradient(50% 50% at 50% 50%, rgb(156, 156, 156) 0%, rgba(103, 206, 103, 0) 100%);
 	width: 35px;
 	height: 35px;
 }
@@ -330,7 +330,7 @@ input[type="range"]::-ms-thumb {
 	grid-area: VISUALBASS;
 	margin-top: 10px;
 	margin-bottom: 10px;
-	background: radial-gradient(50% 50% at 50% 50%, #67CE67 0%, rgba(103, 206, 103, 0) 100%);
+	background: radial-gradient(50% 50% at 50% 50%, rgb(156, 156, 156) 0%, rgba(103, 206, 103, 0) 100%);
 	width: 35px;
 	height: 35px;
 }
@@ -339,7 +339,7 @@ input[type="range"]::-ms-thumb {
 	grid-area: VISUALDRUMS;
 	margin-top: 10px;
 	margin-bottom: 10px;
-	background: radial-gradient(50% 50% at 50% 50%, #67CE67 0%, rgba(103, 206, 103, 0) 100%);
+	background: radial-gradient(50% 50% at 50% 50%, rgb(156, 156, 156) 0%, rgba(103, 206, 103, 0) 100%);
 	width: 35px;
 	height: 35px;
 }
