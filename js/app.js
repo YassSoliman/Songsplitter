@@ -2,180 +2,61 @@
 import lottieWeb from 'https://cdn.skypack.dev/lottie-web';
 $(function () {
 	const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
-	$(".switch-vocals").on("touchstart mousedown", function (e) {
-		e.preventDefault();
-		$(this).css({
-			top: '5px',
-			filter: 'drop-shadow(0px 0px 1px rgba(0, 0, 0, 0.25))',
-			WebkitTransition: 'All 250ms ease',
-			MozTransition: 'All 250ms ease',
-			MsTransition: 'All 250ms ease',
-			OTransition: 'All 250ms ease',
-			transition: 'All 250ms ease'
-		});
-		$(".visuals-vocals").attr('style', 'background: radial-gradient(50% 50% at 50% 50%, #C0C0C0 0%, rgba(208, 208, 208, 0) 100%)');
-		$(this).attr('data-status', 'muted');
-		audioVocals.volume = 0;
-	});
+	var visuals = ['.visuals-vocals', '.visuals-melody', '.visuals-bass', '.visuals-drums'];
+	var switches = ['.switch-vocals', '.switch-melody', '.switch-bass', '.switch-drums'];
+	var sliders = ['#slider-vocals', '#slider-melody', '#slider-bass', '#slider-drums'];
+	var switchesActive = false;
 
-	$(".switch-vocals").on("touchend mouseup", function (e) {
-		e.preventDefault();
-		$(this).css({
-			top: '0px',
-			filter: 'drop-shadow(0px 4px 4px rgba(0, 0, 0, 0.25))',
-			WebkitTransition: 'All 250ms ease',
-			MozTransition: 'All 250ms ease',
-			MsTransition: 'All 250ms ease',
-			OTransition: 'All 250ms ease',
-			transition: 'All 250ms ease'
+	function setAudioVolume() {
+		switches.forEach(function (classStr, i) {
+			audioArr[i].volume = (((($(classStr).attr('data-status') == 'pressed' && switchesActive) || (!switchesActive)) ? ($(sliders[i]).slider("option", "value") / 100) : 0));
+			(audioArr[i].volume == 0) ? $(visuals[i]).attr('style', 'background: radial-gradient(50% 50% at 50% 50%, #C0C0C0 0%, rgba(208, 208, 208, 0) 100%)') : false;
 		});
-		$(this).attr('data-status', 'unmuted');
-		audioVocals.volume = $("#slider-vocals").slider("option", "value") / 100;
-	});
+	}
 
-	$(".switch-melody").on("touchstart mousedown", function (e) {
-		e.preventDefault();
-		$(this).css({
-			top: '5px',
-			filter: 'drop-shadow(0px 0px 1px rgba(0, 0, 0, 0.25))',
-			WebkitTransition: 'All 250ms ease',
-			MozTransition: 'All 250ms ease',
-			MsTransition: 'All 250ms ease',
-			OTransition: 'All 250ms ease',
-			transition: 'All 250ms ease'
+	switches.forEach(function (classStr, i) {
+		$(classStr).on("touchstart mousedown", function (e) {
+			e.preventDefault();
+			$(this).css({
+				top: '5px',
+				filter: 'drop-shadow(0px 0px 1px rgba(0, 0, 0, 0.25))',
+				WebkitTransition: 'All 250ms ease',
+				MozTransition: 'All 250ms ease',
+				MsTransition: 'All 250ms ease',
+				OTransition: 'All 250ms ease',
+				transition: 'All 250ms ease'
+			});
+			$(this).attr('data-status', 'pressed');
+			switchesActive = true;
+			setAudioVolume();
 		});
-		$(".visuals-melody").attr('style', 'background: radial-gradient(50% 50% at 50% 50%, #C0C0C0 0%, rgba(208, 208, 208, 0) 100%)');
-		$(this).attr('data-status', 'muted');
-		audioMelody.volume = 0;
-	});
 
-	$(".switch-melody").on("touchend mouseup", function (e) {
-		e.preventDefault();
-		$(this).css({
-			top: '0px',
-			filter: 'drop-shadow(0px 4px 4px rgba(0, 0, 0, 0.25))',
-			WebkitTransition: 'All 250ms ease',
-			MozTransition: 'All 250ms ease',
-			MsTransition: 'All 250ms ease',
-			OTransition: 'All 250ms ease',
-			transition: 'All 250ms ease'
+		$(classStr).on("touchend mouseup", function (e) {
+			e.preventDefault();
+			$(this).css({
+				top: '0px',
+				filter: 'drop-shadow(0px 4px 4px rgba(0, 0, 0, 0.25))',
+				WebkitTransition: 'All 250ms ease',
+				MozTransition: 'All 250ms ease',
+				MsTransition: 'All 250ms ease',
+				OTransition: 'All 250ms ease',
+				transition: 'All 250ms ease'
+			});
+			$(this).attr('data-status', 'released');
+			switchesActive = $('[data-status="pressed"]').length == 0 ? false : true;
+			setAudioVolume();
 		});
-		$(this).attr('data-status', 'unmuted');
-		audioMelody.volume = $("#slider-melody").slider("option", "value") / 100;
-	});
 
-	$(".switch-bass").on("touchstart mousedown", function (e) {
-		e.preventDefault();
-		$(this).css({
-			top: '5px',
-			filter: 'drop-shadow(0px 0px 1px rgba(0, 0, 0, 0.25))',
-			WebkitTransition: 'All 250ms ease',
-			MozTransition: 'All 250ms ease',
-			MsTransition: 'All 250ms ease',
-			OTransition: 'All 250ms ease',
-			transition: 'All 250ms ease'
-		});
-		$(".visuals-bass").attr('style', 'background: radial-gradient(50% 50% at 50% 50%, #C0C0C0 0%, rgba(208, 208, 208, 0) 100%)');
-		$(this).attr('data-status', 'muted');
-		audioBass.volume = 0;
-	});
-
-	$(".switch-bass").on("touchend mouseup", function (e) {
-		e.preventDefault();
-		$(this).css({
-			top: '0px',
-			filter: 'drop-shadow(0px 4px 4px rgba(0, 0, 0, 0.25))',
-			WebkitTransition: 'All 250ms ease',
-			MozTransition: 'All 250ms ease',
-			MsTransition: 'All 250ms ease',
-			OTransition: 'All 250ms ease',
-			transition: 'All 250ms ease'
-		});
-		$(this).attr('data-status', 'unmuted');
-		audioBass.volume = $("#slider-bass").slider("option", "value") / 100;
-	});
-
-	$(".switch-drums").on("touchstart mousedown", function (e) {
-		e.preventDefault();
-		$(this).css({
-			top: '5px',
-			filter: 'drop-shadow(0px 0px 1px rgba(0, 0, 0, 0.25))',
-			WebkitTransition: 'All 250ms ease',
-			MozTransition: 'All 250ms ease',
-			MsTransition: 'All 250ms ease',
-			OTransition: 'All 250ms ease',
-			transition: 'All 250ms ease'
-		});
-		$(".visuals-drums").attr('style', 'background: radial-gradient(50% 50% at 50% 50%, #C0C0C0 0%, rgba(208, 208, 208, 0) 100%)');
-		$(this).attr('data-status', 'muted');
-		audioDrums.volume = 0;
-	});
-
-	$(".switch-drums").on("touchend mouseup", function (e) {
-		e.preventDefault();
-		$(this).css({
-			top: '0px',
-			filter: 'drop-shadow(0px 4px 4px rgba(0, 0, 0, 0.25))',
-			WebkitTransition: 'All 250ms ease',
-			MozTransition: 'All 250ms ease',
-			MsTransition: 'All 250ms ease',
-			OTransition: 'All 250ms ease',
-			transition: 'All 250ms ease'
-		});
-		$(this).attr('data-status', 'unmuted');
-		audioDrums.volume = $("#slider-drums").slider("option", "value") / 100;
-	});
-
-	$("#slider-vocals").slider({
-		orientation: "vertical",
-		range: "min",
-		min: 0,
-		max: 100,
-		value: 85,
-		change: function (event, ui) {
-			if ($(".switch-vocals").attr('data-status') == 'unmuted') {
-				audioVocals.volume = ui.value / 100;
+		$(sliders[i]).slider({
+			orientation: "vertical",
+			range: "min",
+			min: 0,
+			max: 100,
+			value: 85,
+			change: function (event, ui) {
+				setAudioVolume();
 			}
-		}
-	});
-
-	$("#slider-melody").slider({
-		orientation: "vertical",
-		range: "min",
-		min: 0,
-		max: 100,
-		value: 85,
-		change: function (event, ui) {
-			if ($(".switch-melody").attr('data-status') == 'unmuted') {
-				audioMelody.volume = ui.value / 100;
-			}
-		}
-	});
-
-	$("#slider-bass").slider({
-		orientation: "vertical",
-		range: "min",
-		min: 0,
-		max: 100,
-		value: 85,
-		change: function (event, ui) {
-			if ($(".switch-bass").attr('data-status') == 'unmuted') {
-				audioBass.volume = ui.value / 100;
-			}
-		}
-	});
-
-	$("#slider-drums").slider({
-		orientation: "vertical",
-		range: "min",
-		min: 0,
-		max: 100,
-		value: 85,
-		change: function (event, ui) {
-			if ($(".switch-drums").attr('data-status') == 'unmuted') {
-				audioDrums.volume = ui.value / 100;
-			}
-		}
+		});
 	});
 
 	var audioElementMelody, audioElementVocals, audioElementBass, audioElementDrums;
@@ -352,6 +233,7 @@ $(function () {
 	const audioVocals = document.getElementById('audio-vocals');
 	const audioBass = document.getElementById('audio-bass');
 	const audioDrums = document.getElementById('audio-drums');
+	var audioArr = [audioVocals, audioMelody, audioBass, audioDrums];
 
 	const durationContainer = document.getElementById('duration');
 	const currentTimeContainer = document.getElementById('current-time');
