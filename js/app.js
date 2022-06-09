@@ -14,6 +14,26 @@ $(function () {
 		});
 	}
 
+	function changeSongs() {
+		let songDir = $("#audio-selector").find(":selected").attr("value");
+		$("#audio-vocals").attr("src", "wav/" + songDir + "/vocals.wav");
+		$("#audio-melody").attr("src", "wav/" + songDir + "/melody.wav");
+		$("#audio-drums").attr("src", "wav/" + songDir + "/drums.wav");
+		$("#audio-bass").attr("src", "wav/" + songDir + "/bass.wav");
+		firstPlay = {
+			'bass': true,
+			'vocals': true,
+			'drums': true,
+			'melody': true
+		};
+		//disconnectAudioCtx();
+
+		getAudioElements();
+		console.log(songDir);
+	}
+
+	$("#audio-selector").on("change", changeSongs);
+
 	switches.forEach(function (classStr, i) {
 		$(classStr).on("touchstart mousedown", function (e) {
 			e.preventDefault();
@@ -70,9 +90,28 @@ $(function () {
 	const FREQUENCY_BIN_COUNT = 128;
 	const dataArray = new Uint8Array(FREQUENCY_BIN_COUNT);
 
+	const disconnectAudioCtx = (audioStr) => {
+		switch (audioStr) {
+			case 'melody':
+				sourceMelody.disconnect();
+				analyserMelody.disconnect();
+				break;
+			case 'bass':
+				sourceBass.disconnect();
+				analyserBass.disconnect();
+				break;
+			case 'drums':
+				sourceDrums.disconnect();
+				analyserDrums.disconnect();
+				break;
+			case 'vocals':
+				sourceVocals.disconnect();
+				analyserVocals.disconnect();
+				break;
+		}
+	}
 	const setupAudioCtx = (audioStr) => {
-		// Initialize analyser		
-
+		// Initialize analyser
 		switch (audioStr) {
 			case 'melody':
 				analyserMelody = audioCtx.createAnalyser();
@@ -204,10 +243,12 @@ $(function () {
 			audioBass.play();
 			audioDrums.play();
 
-			audioMelody.volume = $("#slider-melody").slider("option", "value") / 100;
-			audioBass.volume = $("#slider-bass").slider("option", "value") / 100;
-			audioVocals.volume = $("#slider-vocals").slider("option", "value") / 100;
-			audioDrums.volume = $("#slider-drums").slider("option", "value") / 100;
+			audioVocals.currentTime = audioMelody.currentTime;
+			audioDrums.currentTime = audioMelody.currentTime;
+			audioBass.currentTime = audioMelody.currentTime;
+			
+			setAudioVolume();
+
 			playAnimation.goToAndStop(13, true);
 			// If you want animation, uncomment and comment line under 
 			//playAnimation.playSegments([0, 13], true);
