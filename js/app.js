@@ -12,11 +12,12 @@ $(function () {
 			audioArr[i].volume = (((($(classStr).attr('data-status') == 'pressed' && switchesActive) || (!switchesActive)) ? ($(sliders[i]).slider("option", "value") / 100) : 0));
 			(audioArr[i].volume == 0) ? $(visuals[i]).attr('style', 'background: radial-gradient(50% 50% at 50% 50%, #C0C0C0 0%, rgba(208, 208, 208, 0) 100%)') : false;
 		});
-	}	
+	}
 
 	switches.forEach(function (classStr, i) {
 		$(classStr).on("touchstart mousedown", function (e) {
 			e.preventDefault();
+			e.stopPropagation();
 			$(this).css({
 				top: '5px',
 				filter: 'drop-shadow(0px 0px 1px rgba(0, 0, 0, 0.25))',
@@ -33,6 +34,7 @@ $(function () {
 
 		$(classStr).on("touchend mouseup mouseout", function (e) {
 			e.preventDefault();
+			e.stopPropagation();
 			$(this).css({
 				top: '0px',
 				filter: 'drop-shadow(0px 4px 4px rgba(0, 0, 0, 0.25))',
@@ -53,7 +55,9 @@ $(function () {
 			min: 0,
 			max: 100,
 			value: 85,
-			change: function (event, ui) {
+			change: function (e, ui) {
+				e.preventDefault();
+				e.stopPropagation();
 				setAudioVolume();
 			}
 		});
@@ -69,7 +73,7 @@ $(function () {
 	};
 	const FREQUENCY_BIN_COUNT = 128;
 	const dataArray = new Uint8Array(FREQUENCY_BIN_COUNT);
-	
+
 	const setupAudioCtx = (audioStr) => {
 		// Initialize analyser
 		switch (audioStr) {
