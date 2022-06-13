@@ -12,7 +12,7 @@ $(function () {
 			audioArr[i].volume = (((($(classStr).attr('data-status') == 'pressed' && switchesActive) || (!switchesActive)) ? ($(sliders[i]).slider("option", "value") / 100) : 0));
 			(audioArr[i].volume == 0) ? $(visuals[i]).attr('style', 'background: radial-gradient(50% 50% at 50% 50%, #C0C0C0 0%, rgba(208, 208, 208, 0) 100%)') : false;
 		});
-	}
+	}	
 
 	switches.forEach(function (classStr, i) {
 		$(classStr).on("touchstart mousedown", function (e) {
@@ -31,7 +31,7 @@ $(function () {
 			setAudioVolume();
 		});
 
-		$(classStr).on("touchend mouseup", function (e) {
+		$(classStr).on("touchend mouseup mouseout", function (e) {
 			e.preventDefault();
 			$(this).css({
 				top: '0px',
@@ -69,16 +69,15 @@ $(function () {
 	};
 	const FREQUENCY_BIN_COUNT = 128;
 	const dataArray = new Uint8Array(FREQUENCY_BIN_COUNT);
-
+	
 	const setupAudioCtx = (audioStr) => {
-		// Initialize analyser		
-
+		// Initialize analyser
 		switch (audioStr) {
 			case 'melody':
 				analyserMelody = audioCtx.createAnalyser();
 				analyserMelody.fftSize = 2 * FREQUENCY_BIN_COUNT;
 				// Analyser's frequencyBinCount is always half of the fftSize (https://developer.mozilla.org/en-US/docs/Web/API/AnalyserNode/frequencyBinCount)
-				const sourceMelody = audioCtx.createMediaElementSource(audioElementMelody);
+				var sourceMelody = audioCtx.createMediaElementSource(audioElementMelody);
 				// Connect source -> analyser -> destination
 				sourceMelody.connect(analyserMelody);
 				analyserMelody.connect(audioCtx.destination);
@@ -87,7 +86,7 @@ $(function () {
 				analyserBass = audioCtx.createAnalyser();
 				analyserBass.fftSize = 2 * FREQUENCY_BIN_COUNT;
 				// Analyser's frequencyBinCount is always half of the fftSize (https://developer.mozilla.org/en-US/docs/Web/API/AnalyserNode/frequencyBinCount)
-				const sourceBass = audioCtx.createMediaElementSource(audioElementBass);
+				var sourceBass = audioCtx.createMediaElementSource(audioElementBass);
 				// Connect source -> analyser -> destination
 				sourceBass.connect(analyserBass);
 				analyserBass.connect(audioCtx.destination);
@@ -96,7 +95,7 @@ $(function () {
 				analyserDrums = audioCtx.createAnalyser();
 				analyserDrums.fftSize = 2 * FREQUENCY_BIN_COUNT;
 				// Analyser's frequencyBinCount is always half of the fftSize (https://developer.mozilla.org/en-US/docs/Web/API/AnalyserNode/frequencyBinCount)
-				const sourceDrums = audioCtx.createMediaElementSource(audioElementDrums);
+				var sourceDrums = audioCtx.createMediaElementSource(audioElementDrums);
 				// Connect source -> analyser -> destination
 				sourceDrums.connect(analyserDrums);
 				analyserDrums.connect(audioCtx.destination);
@@ -105,7 +104,7 @@ $(function () {
 				analyserVocals = audioCtx.createAnalyser();
 				analyserVocals.fftSize = 2 * FREQUENCY_BIN_COUNT;
 				// Analyser's frequencyBinCount is always half of the fftSize (https://developer.mozilla.org/en-US/docs/Web/API/AnalyserNode/frequencyBinCount)
-				const sourceVocals = audioCtx.createMediaElementSource(audioElementVocals);
+				var sourceVocals = audioCtx.createMediaElementSource(audioElementVocals);
 				// Connect source -> analyser -> destination
 				sourceVocals.connect(analyserVocals);
 				analyserVocals.connect(audioCtx.destination);
@@ -204,10 +203,12 @@ $(function () {
 			audioBass.play();
 			audioDrums.play();
 
-			audioMelody.volume = $("#slider-melody").slider("option", "value") / 100;
-			audioBass.volume = $("#slider-bass").slider("option", "value") / 100;
-			audioVocals.volume = $("#slider-vocals").slider("option", "value") / 100;
-			audioDrums.volume = $("#slider-drums").slider("option", "value") / 100;
+			audioVocals.currentTime = audioMelody.currentTime;
+			audioDrums.currentTime = audioMelody.currentTime;
+			audioBass.currentTime = audioMelody.currentTime;
+
+			setAudioVolume();
+
 			playAnimation.goToAndStop(13, true);
 			// If you want animation, uncomment and comment line under 
 			//playAnimation.playSegments([0, 13], true);

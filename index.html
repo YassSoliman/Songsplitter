@@ -8,7 +8,7 @@
 	<title>Songsplitter</title>
 	<link rel="stylesheet" href="css/style.css">
 	<link rel="stylesheet" href="css/jquery-ui.css">
-	
+
 </head>
 
 <body>
@@ -28,14 +28,19 @@
 			</select>
 		</div>
 		<div class="box-4">
-			<audio src="wav/Lil Nas X - Industry Baby (Lyrics) ft. Jack Harlow/vocals.wav" preload="auto"
+			<audio src="wav/Lil Nas X - Industry Baby (Lyrics) ft. Jack Harlow/vocals.wav"
+				data-song="Lil Nas X - Industry Baby (Lyrics) ft. Jack Harlow" preload="auto"
 				id="audio-vocals"></audio>
-			<audio src="wav/Lil Nas X - Industry Baby (Lyrics) ft. Jack Harlow/melody.wav" preload="auto"
+			<audio src="wav/Lil Nas X - Industry Baby (Lyrics) ft. Jack Harlow/melody.wav"
+				data-song="Lil Nas X - Industry Baby (Lyrics) ft. Jack Harlow" preload="auto"
 				id="audio-melody"></audio>
-			<audio src="wav/Lil Nas X - Industry Baby (Lyrics) ft. Jack Harlow/drums.wav" preload="auto"
+			<audio src="wav/Lil Nas X - Industry Baby (Lyrics) ft. Jack Harlow/drums.wav"
+				data-song="Lil Nas X - Industry Baby (Lyrics) ft. Jack Harlow" preload="auto"
 				id="audio-drums"></audio>
-			<audio src="wav/Lil Nas X - Industry Baby (Lyrics) ft. Jack Harlow/bass.wav" preload="auto"
+			<audio src="wav/Lil Nas X - Industry Baby (Lyrics) ft. Jack Harlow/bass.wav"
+				data-song="Lil Nas X - Industry Baby (Lyrics) ft. Jack Harlow" preload="auto"
 				id="audio-bass"></audio>
+
 			<button id="play-icon"></button>
 
 			<div>
@@ -71,9 +76,9 @@
 			<div class="switch-drums btn-push" data-status="unmuted"></div>
 		</div>
 	</div>
-	
+
 	<script src="js/jquery-3.6.0.min.js"></script>
-	<script src="js/jquery-ui.js"></script>	
+	<script src="js/jquery-ui.js"></script>
 	<script src="js/jquery.ui.touch-punch.js"></script>
 	<script type="module" src="js/app.js"></script>
 
