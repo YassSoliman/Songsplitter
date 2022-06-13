@@ -69,27 +69,7 @@ $(function () {
 	};
 	const FREQUENCY_BIN_COUNT = 128;
 	const dataArray = new Uint8Array(FREQUENCY_BIN_COUNT);
-
-	const disconnectAudioCtx = (audioStr) => {
-		switch (audioStr) {
-			case 'melody':
-				sourceMelody.disconnect();
-				analyserMelody.disconnect();
-				break;
-			case 'bass':
-				sourceBass.disconnect();
-				analyserBass.disconnect();
-				break;
-			case 'drums':
-				sourceDrums.disconnect();
-				analyserDrums.disconnect();
-				break;
-			case 'vocals':
-				sourceVocals.disconnect();
-				analyserVocals.disconnect();
-				break;
-		}
-	}
+	
 	const setupAudioCtx = (audioStr) => {
 		// Initialize analyser
 		switch (audioStr) {
