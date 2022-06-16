@@ -286,9 +286,9 @@ $(function () {
 
 	seekSlider.addEventListener('change', () => {
 		audioMelody.currentTime = seekSlider.value;
-		audioVocals.currentTime = seekSlider.value;
-		audioDrums.currentTime = seekSlider.value;
-		audioBass.currentTime = seekSlider.value;
+		audioVocals.currentTime = audioMelody.currentTime;
+		audioDrums.currentTime = audioMelody.currentTime;
+		audioBass.currentTime = audioMelody.currentTime;
 		if (!audioMelody.paused) {
 			requestAnimationFrame(whilePlaying);
 		}
