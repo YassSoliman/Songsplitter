@@ -285,10 +285,21 @@ $(function () {
 	});
 
 	seekSlider.addEventListener('change', () => {
+		/*audioMelody.pause();
+		audioVocals.pause();
+		audioDrums.pause();
+		audioBass.pause();*/
+		
+
 		audioMelody.currentTime = seekSlider.value;
-		audioVocals.currentTime = audioMelody.currentTime;
-		audioDrums.currentTime = audioMelody.currentTime;
-		audioBass.currentTime = audioMelody.currentTime;
+		audioVocals.currentTime = seekSlider.value;
+		audioDrums.currentTime = seekSlider.value;
+		audioBass.currentTime = seekSlider.value;
+
+		/*audioMelody.play();
+		audioVocals.play();
+		audioDrums.play();
+		audioBass.play();*/
 		if (!audioMelody.paused) {
 			requestAnimationFrame(whilePlaying);
 		}
